@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">TicTacToe</string>
+    <string name="error">Error</string>
+    <string name="ok">OK</string>
+    <string name="draw">Ohh it\'s a draw!</string>
+    <string name="drawMessage">There is no winners</string>
+</resources>
