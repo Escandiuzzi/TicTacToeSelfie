@@ -31,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
     private final int CAMERA_1 = 1;
     private final int CAMERA_2 = 2;
 
+    private final int DELAYTIME = 3000;
+
     int[][] board = new int[3][3];
 
     ImageButton tile00;
@@ -286,7 +288,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean gameStarted() {
-
         return !gameOver && player1PhotoSelected && player2PhotoSelected && selectedFirstPlayer;
     }
 
@@ -437,26 +438,53 @@ public class MainActivity extends AppCompatActivity {
 
             if (gameOver) {
                 ibPlayer1.setBackgroundColor(Color.GREEN);
+                (new Handler()).postDelayed(this::showWinner, DELAYTIME);
             }
-            else
+            else {
                 ibPlayer1.setBackgroundColor(Color.BLACK);
-
-            ibPlayer2.setBackgroundColor(color);
-            selectedPlayer++;
+                ibPlayer2.setBackgroundColor(color);
+                selectedPlayer++;
+            }
         }
         else {
 
             if (gameOver) {
                 ibPlayer2.setBackgroundColor(Color.GREEN);
+                (new Handler()).postDelayed(this::showWinner, DELAYTIME);
             }
-            else
+            else {
                 ibPlayer2.setBackgroundColor(Color.BLACK);
-
-            ibPlayer1.setBackgroundColor(color);
-            selectedPlayer--;
+                selectedPlayer--;
+                ibPlayer1.setBackgroundColor(color);
+            }
         }
 
         plays++;
+    }
+
+    private void showWinner() {
+
+        Intent winnerIntent = new Intent(getBaseContext(), WinnerActivity.class);
+        Bundle bundle = new Bundle();
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+
+        if(selectedPlayer == 1) {
+            player1Photo.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] byteArray = stream.toByteArray();
+
+            bundle.putByteArray("image", byteArray);
+            bundle.putString("winnerName", "Player 1");
+        }
+        else {
+            player2Photo.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] byteArray = stream.toByteArray();
+
+            bundle.putByteArray("image", byteArray);
+            bundle.putString("winnerName", "Player 2");
+        }
+
+        winnerIntent.putExtra("winnerBundle", bundle);
+        startActivity(winnerIntent);
     }
 
     private boolean verifyBoard(int player) {
