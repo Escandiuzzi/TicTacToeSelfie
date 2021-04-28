@@ -2,6 +2,7 @@ package com.escandiuzzi.android.tictactoe;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -46,9 +47,9 @@ public class WinnerActivity extends AppCompatActivity {
         {
             @Override
             public void onClick(View v) {
-
                 Intent mainScreenIntent = new Intent(getBaseContext(), MainActivity.class);
-                startActivity(mainScreenIntent);
+                setResult(Activity.RESULT_OK, mainScreenIntent);
+                finish();
             }
         });
 

@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
     private final int CAMERA_1 = 1;
     private final int CAMERA_2 = 2;
+    private final int WINNER = 3;
 
     private final int DELAYTIME = 3000;
 
@@ -309,6 +310,10 @@ public class MainActivity extends AppCompatActivity {
 
             updatePlayerPhoto(2,  data.getExtras().get("data"));
         }
+
+        else if (resultCode == RESULT_OK && requestCode == WINNER) {
+            resetGame(false);
+        }
     }
 
     private void updatePlayerPhoto(int id, Object bitmap) {
@@ -484,7 +489,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         winnerIntent.putExtra("winnerBundle", bundle);
-        startActivity(winnerIntent);
+        startActivityForResult(winnerIntent, WINNER);
     }
 
     private boolean verifyBoard(int player) {
